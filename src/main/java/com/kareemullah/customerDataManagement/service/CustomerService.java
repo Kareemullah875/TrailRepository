@@ -1,6 +1,7 @@
 package com.kareemullah.customerDataManagement.service;
 
 import java.time.LocalDateTime;
+import java.util.InputMismatchException;
 import java.util.List;
 
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.kareemullah.customerDataManagement.dto.CustomerDto;
 import com.kareemullah.customerDataManagement.dto.ResponseStructure;
 import com.kareemullah.customerDataManagement.entity.Customer;
+import com.kareemullah.customerDataManagement.exceptionHandling.NoDataFoundException;
 import com.kareemullah.customerDataManagement.repository.CustomerDao;
 import com.kareemullah.customerDataManagement.repository.CustomerRepository;
 
@@ -48,28 +50,32 @@ public class CustomerService
 		return rs;
 	}
 	
-	public ResponseStructure<Object> getAllCustomerData()
+	public ResponseStructure<Object> getAllCustomerData() 
+			throws NoDataFoundException
 	{
 		//return dao.getAllCustomerData();
 		List<Customer> list = dao.getAllCustomerData();
 		ResponseStructure<Object> rs = new ResponseStructure<>();
 
-		if(list.size()!=0)
+		//if(list.size()!=0)
+		if(list.size()==0)
 		{
 			rs.setData(list);
 			rs.setTimeStamp(LocalDateTime.now());
 			rs.setStatusCode(HttpStatus.FOUND.value());
 			rs.setMessage("Customer entry found in database ");	
+			return rs;
 		}
-		else
+	
+		/*else
 		{
 			rs.setData(null);
 			rs.setTimeStamp(LocalDateTime.now());
 			rs.setStatusCode(HttpStatus.NOT_FOUND.value());
 			rs.setMessage(" No Customer entry found in database ");		
 		}
-		return rs;
-			
+		return rs;*/
+		throw new NoDataFoundException();
 	
 	}
 	
@@ -82,10 +88,12 @@ public class CustomerService
 		// TODO Auto-generated method stub
 		return dao.deleteCustomerDataById(id);
 	}
-	
-	public List<Customer> getCustomerByName(String name)
+	 
+	public List<Customer> getCustomerByName(String name) throws InputMismatchException
 	{
-		return dao.getCustomerByName(name);	
+		
+		throw new InputMismatchException();
+		//return dao.getCustomerByName(name);	
 	}
 	
 	public List<Customer> validateCustomer(String name, String email)

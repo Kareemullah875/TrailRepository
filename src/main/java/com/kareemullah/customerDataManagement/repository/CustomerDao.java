@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kareemullah.customerDataManagement.dto.CustomerDto;
 import com.kareemullah.customerDataManagement.entity.Customer;
 
 @Repository
@@ -43,10 +44,26 @@ public class CustomerDao
 		 return customer;
 	}
 	
-	public Customer updateCustomerDataById(int id)
+	public Customer updateCustomerDataById(CustomerDto customerDto)
 	{
+		Customer byId = repository.getById(customerDto.getId());
+		
+		if(byId != null)
+		{
+			byId.setName(customerDto.getName());
+			byId.setEmail(customerDto.getEmail());
+		}
+		
+		/*Customer customerDataById = getCustomerDataById(id);
+		
+		if(customerDataById != null)
+		{
+			customerDataById.setName(name);
+			customerDataById.setEmail(email);
+		}
+		return customerDataById;*/
+		//return repository.save(byId);
 		return null;
-		//return repository.upda
 	}
 	
 	public List<Customer> getCustomerByName(String name)

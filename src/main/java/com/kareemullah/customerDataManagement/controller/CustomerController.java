@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kareemullah.customerDataManagement.dto.CustomerDto;
 import com.kareemullah.customerDataManagement.dto.ResponseStructure;
 import com.kareemullah.customerDataManagement.entity.Customer;
+import com.kareemullah.customerDataManagement.exceptionHandling.NoDataFoundException;
 import com.kareemullah.customerDataManagement.service.CustomerService;
 
 @RestController
@@ -44,7 +45,7 @@ public class CustomerController
 	}
 	
 	@GetMapping(value = "/customer")
-	public @ResponseBody ResponseStructure<Object> getAllCustomerData()
+	public @ResponseBody ResponseStructure<Object> getAllCustomerData() 
 	{
 		return service.getAllCustomerData();
 	}
